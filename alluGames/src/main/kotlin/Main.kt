@@ -42,15 +42,15 @@ fun main() {
 //    } catch (ex: IllegalStateException) {
 //        println("Retorno vazio. Tente outro id.")
 //    }
+    var meuJogo:Jogo? = null
 
     val resultado = runCatching {
         val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
 
-        val meuJogo = Jogo(
+         meuJogo = Jogo(
             meuInfoJogo.info.title,
             meuInfoJogo.info.thumb
         )
-        println(meuJogo)
     }
 
     resultado.onFailure {
@@ -62,11 +62,16 @@ fun main() {
         val opcao = leitura.nextLine()
         if(opcao.equals("s", true)) {
             println("Insira a descrição personalizada para o jogo:")
-            val descricao = leitura.nextLine()
-            meuJogo.descricao
+            val descricaoPersonalizada = leitura.nextLine()
+            meuJogo?.descricao = descricaoPersonalizada
         } else {
-
+            meuJogo?.descricao = meuJogo?.titulo
         }
+
+        println(meuJogo)
+    }
+
+    resultado.onSuccess {
+        println("Busca finalizada com sucesso.")
     }
 }
-
