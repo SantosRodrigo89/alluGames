@@ -1,4 +1,5 @@
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -12,7 +13,7 @@ fun main() {
 
     val endereco = "https://www.cheapshark.com/api/1.0/games?id=$busca"
 
-    val client : HttpClient = HttpClient.newHttpClient()
+    val client: HttpClient = HttpClient.newHttpClient()
     val request = HttpRequest.newBuilder()
         .uri(URI.create(endereco))
         .build()
@@ -23,11 +24,21 @@ fun main() {
     println(json)
 
     val gson = Gson()
-    val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
 
-    val meuJogo = Jogo(
-        meuInfoJogo.info.title,
-        meuInfoJogo.info.thumb)
+    try {
+        val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
 
-    println(meuJogo)
+        val meuJogo = Jogo(
+            meuInfoJogo.info.title,
+            meuInfoJogo.info.thumb
+        )
+        println(meuJogo)
+    } catch (ex: NullPointerException) {
+        println("Jogo inexistente. Tente outro id.")
+    } catch (ex: JsonSyntaxException) {
+        println("Retorno vazio. Tente outro id.")
+    } catch (ex: IllegalStateException) {
+        println("Retorno vazio. Tente outro id.")
+    }
 }
+
