@@ -25,7 +25,25 @@ fun main() {
 
     val gson = Gson()
 
-    try {
+//    val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
+
+//    try {
+//        val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
+//
+//        val meuJogo = Jogo(
+//            meuInfoJogo.info.title,
+//            meuInfoJogo.info.thumb
+//        )
+//        println(meuJogo)
+//    } catch (ex: NullPointerException) {
+//        println("Jogo inexistente. Tente outro id.")
+//    } catch (ex: JsonSyntaxException) {
+//        println("Retorno vazio. Tente outro id.")
+//    } catch (ex: IllegalStateException) {
+//        println("Retorno vazio. Tente outro id.")
+//    }
+
+    val resultado = runCatching {
         val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
 
         val meuJogo = Jogo(
@@ -33,12 +51,22 @@ fun main() {
             meuInfoJogo.info.thumb
         )
         println(meuJogo)
-    } catch (ex: NullPointerException) {
+    }
+
+    resultado.onFailure {
         println("Jogo inexistente. Tente outro id.")
-    } catch (ex: JsonSyntaxException) {
-        println("Retorno vazio. Tente outro id.")
-    } catch (ex: IllegalStateException) {
-        println("Retorno vazio. Tente outro id.")
+    }
+
+    resultado.onSuccess {
+        println("Deseja inserir uma descrição personalizada? S/N")
+        val opcao = leitura.nextLine()
+        if(opcao.equals("s", true)) {
+            println("Insira a descrição personalizada para o jogo:")
+            val descricao = leitura.nextLine()
+            meuJogo.descricao
+        } else {
+
+        }
     }
 }
 
