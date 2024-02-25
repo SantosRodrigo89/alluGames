@@ -6,10 +6,13 @@ import java.util.*
 
 fun main() {
     val leitura = Scanner(System.`in`)
+
     println("Digite um código de jogo para buscar:")
+
     val busca = leitura.nextLine()
 
     val buscaApi = ConsumoApi()
+
     val informacaoJogo = buscaApi.buscaJogo(busca)
 
     var meuJogo: Jogo? = null
@@ -23,7 +26,7 @@ fun main() {
     }
 
     resultado.onFailure {
-        println("modelo.Jogo inexistente. Tente outro id.")
+        println("Jogo inexistente. Tente outro id.")
     }
 
     resultado.onSuccess {
@@ -36,7 +39,6 @@ fun main() {
         } else {
             meuJogo?.descricao = meuJogo?.titulo
         }
-
         println(meuJogo)
     }
 
