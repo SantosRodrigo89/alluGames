@@ -97,6 +97,11 @@
             <version>2.10.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-compiler</artifactId>
+            <version>1.9.22</version>
+        </dependency>
     </dependencies>
 
 </project>
